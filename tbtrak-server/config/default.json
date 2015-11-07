@@ -1,0 +1,8 @@
+{
+  "harvest": {
+    "subdomain": "crawfordworks",
+    "email": "andrew@crawford.works",
+    "password": "@ndr3W12",
+    "user_agent": "node-harvest test runner"
+  }
+}
