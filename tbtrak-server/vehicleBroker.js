@@ -69,7 +69,7 @@ module.exports = function createBroker (options) {
     connection.query('SELECT * from vehicles WHERE id = ?', id,function(err, rows, fields) {
       if (err)
       {
-         return callback(err, null);
+        callback(err, null);
       }
       else
       {
@@ -81,18 +81,85 @@ module.exports = function createBroker (options) {
     
   }
   
-  function deleteVehicle(id)
+  function deleteVehicle(id, callback)
   {
     //deletes the vehcile given the ID and returns the deleted object
+    connection.query('DELETE FROM vehicles WHERE id = ?', id, function (err, result) {
+      
+      if (err)
+      {
+         callback(err, null);
+      }
+      else if(result.affectedRows > 0)
+      {
+        //we good
+        callback(err, {id: id});
+        
+      }
+      else
+      {
+        callback("No vehicle found", null);
+      }
+    
+      //console.log('deleted ' + result.affectedRows + ' rows');
+    });
+    
   }
   
-  function saveVehicle(vehicle)
+  function saveVehicle(vehicle, callback)
   {
     //either creates or updates a veicle given the vehicle object and returns the newly created/updated object
+    
+    //1. determine if object already exists
+    //
+    
+    if(vehicle.id)
+    {
+      console.log("GOT ID");
+      
+      //1. Pull out the ID of the vehicle
+      //2. Update
+      var id = vehicle.id;
+      var updatedVehicle = _.omit(vehicle, 'id');
+      
+      connection.query('UPDATE vehicles SET ? WHERE id = ?', [updatedVehicle, id], function(err, result) {
+        if(err)
+        {
+          callback(err, null);
+          
+        }
+        else if(result.affectedRows > 0)
+        {
+          getVehicle(id, callback);
+        }
+        else
+        {
+          callback("No vehicle found");
+        }
+      });
+      
+      
+    }
+    else
+    {
+      connection.query('INSERT INTO vehicles SET ?',vehicle, function(err, result) {
+        if(err)
+        {
+          callback(err, null);
+        }
+        else if(result.affectedRows > 0)
+        {
+          getVehicle(result.insertId, callback);
+        }
+        else
+        {
+          callback("Error adding vehicle, contact support");
+        }
+      });
+    }
+    
+    
   }
-  
-  
-  
 
   return {
     all: function(callback){
@@ -102,16 +169,11 @@ module.exports = function createBroker (options) {
       getVehicle(id, callback);
     },
     deleteVehicleById: function(id, callback){
-      
-      
-      delete vehicles[id];
+      deleteVehicle(id, callback);
     },
-    saveVehicle: function(vehicle){
+    saveVehicle: function(vehicle, callback) {
+      saveVehicle(vehicle, callback);
       
-      
-      
-      var newRef = vehicles[newVehicle.id] = newVehicle;
-      return vehicleAsResource(newRef);
     },
     closeBroker: function()
     {
