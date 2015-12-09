@@ -120,12 +120,14 @@ module.exports = function createBroker (options) {
     
     if(vehicle.id)
     {
-      console.log("GOT ID");
       
       //1. Pull out the ID of the vehicle
       //2. Update
       var id = vehicle.id;
-      var updatedVehicle = _.omit(vehicle, 'id');
+      var updatedVehicle = _.omit(vehicle, ['id', 'URI']);
+      //console.log(updatedVehicle);
+      updatedVehicle = _.pick(updatedVehicle, _.identity);
+      //console.log(JSON.stringify(updatedVehicle));
       
       connection.query('UPDATE vehicles SET ? WHERE id = ?', [updatedVehicle, id], function(err, result) {
         if(err)

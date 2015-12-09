@@ -1,7 +1,7 @@
 
 <a class="btn btn-warning" href="#vehicles"><i class="fa fa-arrow-left"></i> Back</a>
 
-<form class="form-horizontal" style="margin-top: 40px;">
+<form class="form-horizontal form-vehicle" style="margin-top: 40px;">
   <div class="form-group">
     <label for="vehicle-id" class="col-sm-1 control-label">ID</label>
     <div class="col-sm-9">
@@ -13,47 +13,88 @@
   <div class="form-group">
     <label for="vehicle-make" class="col-sm-1 control-label">Vehicle</label>
     <div class="col-sm-3">
+      <input type="number" class="form-control" id="vehicle-year" placeholder="2014" value="<%=vehicle.year%>">
+    </div>
+    <div class="col-sm-3">
       <input type="text" class="form-control" id="vehicle-make" placeholder="Tesla" value="<%=vehicle.make%>">
     </div>
     <div class="col-sm-3">
       <input type="text" class="form-control" id="vehicle-model" placeholder="Model X" value="<%=vehicle.model%>">
-    </div>
-    <div class="col-sm-3">
-      <input type="number" class="form-control" id="vehicle-year" placeholder="2014" value="<%=vehicle.year%>">
     </div>
   </div>
   
   <div class="form-group">
     <label for="vehicle-project" class="col-sm-1 control-label">Project</label>
     <div class="col-sm-9">
-      <select class="form-control vehicle-project" id="vehicle-project">
+      <select class="form-control vehicle-project" id="vehicle-project" style="width: 100%">
         <option value="<%=vehicle.project_id%>" selected="selected"><%=vehicle.project_code%></option>
       </select>
     </div>
   </div>
   
   <div class="form-group">
-    <label for="vehicle-make" class="col-sm-1 control-label">Inspect</label>
+    <label for="vehicle-inspect" class="col-sm-1 control-label">Inspected</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="vehicle-inspect" placeholder="Tesla" value="<%=vehicle.inspect%>">
+      <input type="text" class="form-control" id="vehicle-inspect" placeholder="Vlad" value="<%=vehicle.inspect%>">
     </div>
   </div>
   
   <div class="form-group">
-    <label for="vehicle-make" class="col-sm-1 control-label">VIN</label>
+    <label for="vehicle-vin" class="col-sm-1 control-label">VIN</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="vehicle-vin" placeholder="Tesla" value="<%=vehicle.vin%>">
+      <input type="text" class="form-control" id="vehicle-vin" placeholder="Vehicle Identification Number" value="<%=vehicle.vin%>">
     </div>
   </div>
   
   <div class="form-group">
-    <label for="vehicle-make" class="col-sm-1 control-label">Owner</label>
+    <label for="vehicle-insurer" class="col-sm-1 control-label">Insurer</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="vehicle-insurer" placeholder="John Appleseed" value="<%=vehicle.insurer%>">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="vehicle-owner" class="col-sm-1 control-label">Owner</label>
     <div class="col-sm-9">
       <input type="text" class="form-control" id="vehicle-owner" placeholder="John Appleseed" value="<%=vehicle.owner%>">
     </div>
   </div>
   
+  <div class="form-group">
+    <label for="vehicle-passenger" class="col-sm-1 control-label">Passenger</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="vehicle-passenger" placeholder="Jenny Appleseed" value="<%=vehicle.passenger%>">
+    </div>
+  </div>
   
+  <div class="form-group">
+    <label for="vehicle-driver" class="col-sm-1 control-label">Driver</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="vehicle-driver" placeholder="Bobby Appleseed" value="<%=vehicle.passenger%>">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="vehicle-comments" class="col-sm-1 control-label">Comments</label>
+    <div class="col-sm-9">
+      <textarea type="text" class="form-control" id="vehicle-comments" placeholder="The car's looking rusty, stored in bay 4"><%=vehicle.comments%></textarea>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-7 col-sm-offset-1">
+      <div class="alert alert-success hidden" role="alert">Successfully saved. </div>
+    </div>
+    <div class="col-sm-3">
+      <span class="pull-right">
+        <button class="btn btn-danger btn-delete">Delete</button>
+        <button class="btn btn-primary btn-save">Save Changes</button>
+      </span>
+    </div>
+    <div class="col-sm-2">
+      &nbsp;
+    </div>
+  </div>
     
     
     

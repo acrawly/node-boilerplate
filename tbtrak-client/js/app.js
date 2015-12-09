@@ -42,28 +42,32 @@ window.Router = Backbone.Router.extend({
 
     vehicles: function () {
         if (!this.vehicleListView) {
-            var self = this; //fix scope issues
-            this.vehicleListView = new VehicleListView();
             
             this.vehicleCollection = new VehicleCollection();
-        
+            var self = this;
+            
             this.vehicleCollection.fetch(
             {
               success: function() {
-                self.vehicleListView.render(self.vehicleCollection);
-                //console.log(self.vehicleCollection);
+                var vehicleListView = new VehicleListView({collection: self.vehicleCollection});
+                
+                vehicleListView.render();
+                
+                $('#content').html(vehicleListView.el);
               },
               error: function() {
-                alert("There was an issue loading the vehicles");
+                alert("There was an issue loading data from the server. Please contact IT.");
               }
             });
         }
         
-        $('#content').html(this.vehicleListView.el);
+       
     },
 
     vehicleDetails: function (id) {
+        
         var vehicle = new Vehicle({id: id});
+        
         vehicle.fetch({
             success: function (data) {
               // Note that we could also 'recycle' the same instance of EmployeeFullView
@@ -77,6 +81,9 @@ window.Router = Backbone.Router.extend({
               
               $("#content").html(vehicleView.el);
               
+            },
+            error: function() {
+              alert("There was an issue loading data from the server. Please contact IT.");
             }
         });
     },

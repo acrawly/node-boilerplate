@@ -58,9 +58,18 @@ app.use(function(req,res,next){
     req.projects = harvest.Projects;
     
     res.setHeader("Access-Control-Allow-Origin", "http://localhost");
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
-    next();
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.sendStatus(200);
+    }
+    else {
+      next();
+    }
 });
+
 
 
 

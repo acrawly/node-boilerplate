@@ -2,18 +2,22 @@
 
 <table class="table table-hover">
   <thead>
-    <th>Make</th>
-    <th>Model</th>
-    <th>Year</th>
+    <th>Vehicle</th>
+    <th>VIN</th>
+    <th>Owner</th>
+    <th>Inspected By</th>
+    <th>Comments</th>
     <th>Project</th>
     <th>&nbsp;</th>
   </thead>
   <% //console.log(vehicles) %>
   <% _.each(vehicles, function(vehicle) { %> 
       <tr>
-        <td><%=vehicle.make%></td>
-        <td><%=vehicle.model%></td>
-        <td><%=vehicle.year%></td>
+        <td><%=vehicle.year%> <%=vehicle.make%> <%=vehicle.model%></td>
+        <td><%=vehicle.vin%></td>
+        <td><%=vehicle.owner%></td>
+        <td><%=vehicle.inspect%></td>
+        <td><%=_.escape(vehicle.comments)%></td>
         <td><a href="https://crawfordworks.harvestapp.com/projects/<%=vehicle.project_id%>" target="_blank"><%=vehicle.project_code%></a></td>
         <td><a class="btn btn-default" href="#vehicles/<%=vehicle.id%>"><i class="fa fa-pencil-square-o"></i></a></td>
       </tr>

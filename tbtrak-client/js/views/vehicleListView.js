@@ -1,8 +1,10 @@
 window.VehicleListView = Backbone.View.extend({
 
-    initialize:function () {
+    initialize:function (options) {
         console.log('Initializing Vehicle List View');
+        this.vehicles = options.collection;
         Backbone.pubSub.on('search', this.search, this);
+        Backbone.pubSub.on('refresh', this.render, this);
         
         
 //        this.template = _.template(directory.utils.templateLoader.get('home'));
@@ -10,17 +12,23 @@ window.VehicleListView = Backbone.View.extend({
     },
     
     render:function (collection) {
-        if(!this.collection)
-          this.collection = collection;
+      if(collection)
+      {
         $(this.el).html(this.template({vehicles: collection.toJSON()}));
-        return this;
+      }
+      else
+      {
+        $(this.el).html(this.template({vehicles: this.vehicles.toJSON()}));
+      }
+        
+      return this;
     },
     search: function() {
       var q = $("#search").val();
       
       var array = q.split(" ");
 
-      search_results = this.collection.filter(function(model) {
+      search_results = this.vehicles.filter(function(model) {
         //here is where we need to put both search terms
         return _.every(array, function(searchTerm) {
           return _.any(model.attributes, function(val, attr) {
@@ -55,7 +63,7 @@ window.VehicleListView = Backbone.View.extend({
         
       });
      
-
+     
       this.render(new VehicleCollection(search_results));
       
     }
