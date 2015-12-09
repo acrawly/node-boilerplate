@@ -1,0 +1,3 @@
+-Implement MySQL connection pooling. See https://github.com/felixge/node-mysql/issues/889
+-Setup settings area to update harvest credentials for API connection
+-Implement search term for GET /projects

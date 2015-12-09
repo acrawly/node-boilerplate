@@ -22,9 +22,14 @@ module.exports = function createBroker (options) {
 
   //helper functions
   function vehicleAsJSON(vehicle) {
+    _.mapObject({start: 5, end: 12}, function(val, key) {
+      return _.escape(val);
+    });
+
     var resource = _.extend({
       URI: baseURI + vehicle.id
     },vehicle);
+    
     return resource;
   }
   

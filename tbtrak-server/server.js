@@ -56,6 +56,8 @@ app.use(function(req,res,next){
       }
     );
     req.projects = harvest.Projects;
+    
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost");
 
     next();
 });

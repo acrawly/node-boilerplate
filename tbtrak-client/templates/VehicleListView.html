@@ -1,0 +1,23 @@
+<br>
+
+<table class="table table-hover">
+  <thead>
+    <th>Make</th>
+    <th>Model</th>
+    <th>Year</th>
+    <th>Project</th>
+    <th>&nbsp;</th>
+  </thead>
+  <% //console.log(vehicles) %>
+  <% _.each(vehicles, function(vehicle) { %> 
+      <tr>
+        <td><%=vehicle.make%></td>
+        <td><%=vehicle.model%></td>
+        <td><%=vehicle.year%></td>
+        <td><a href="https://crawfordworks.harvestapp.com/projects/<%=vehicle.project_id%>" target="_blank"><%=vehicle.project_code%></a></td>
+        <td><a class="btn btn-default" href="#vehicles/<%=vehicle.id%>"><i class="fa fa-pencil-square-o"></i></a></td>
+      </tr>
+  <% }); %>
+</table>
+
+

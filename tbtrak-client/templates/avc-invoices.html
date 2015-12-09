@@ -1,0 +1,64 @@
+<h1>Associate Vets Invoices</h1>
+				<span class="label label-info">within 30 days</span>
+				<span class="label label-warning">over 30 days</span>
+				<span class="label label-danger">over 60 days</span>
+				<table class="table table-hover table-striped">
+					<thead><th>Invoice</th><th>Clinic</th><th>Date</th><th>Amount</th><th>Status</th><th>AVC Status</th></thead>
+					<% 	invoiceCollection.reverse(); 
+						var sixtyDaysAgo = new Date().getTime() - (60 * 24 * 60 * 60 * 1000); //current time minus 60 days
+						var thirtyDaysAgo = new Date().getTime() - (30 * 24 * 60 * 60 * 1000); //current time minus 60 days
+						//console.log("timestamp:");
+						//.log(timestamp);
+						//console.log(typeof timestamp);
+
+
+
+					%>
+					<% _.each(invoiceCollection, function(invoice, index) { %>
+					
+					<% 
+
+						var invoiceDate = invoice.date.split("-");
+						//console.log("Invoice Date: ");
+						//console.log(invoiceDate);
+						var date = new Date(invoiceDate[0], parseInt(invoiceDate[1])-1, invoiceDate[2].split(" ")[0]).getTime();
+						
+						/*console.log("date for invoice "+invoice.number+": ");
+						console.log(invoice.date);
+						console.log(new Date(invoiceDate[0], parseInt(invoiceDate[1])-1, invoiceDate[2].split(" ")[0]));
+						console.log(typeof date);
+						console.log(date);*/
+
+						//console.log(date + " < " + timestamp);
+						if(date < sixtyDaysAgo)
+						{
+							%><tr class="danger"><%
+						}
+						else if(date < thirtyDaysAgo)
+						{
+							%><tr class="warning"><%
+						}
+						else
+						{
+							%><tr class="info"><%
+						}
+					%>
+						<td><a href="<%=invoice.links.client_view%>" target="_blank"><%=invoice.number%></a></td>
+						<td><%=invoice.organization%></td>
+						<td><%=$.format.toBrowserTimeZone(new Date(date), "D of MMM yyyy")%></td>
+						<td>$<%=invoice.amount%></td>
+						<td><%=invoice.status%></td>
+						<td>
+							<select id="avc" invoice_id="<%=invoice.invoice_id%>">
+							 	<option value="1" <%= invoice.avc === "1" ? 'selected' : void 0 %>>Not Recieved</option>
+								<option value="2" <%= invoice.avc === "2" ? 'selected' : void 0 %>>In System</option>
+								<option value="3" <%= invoice.avc === "3" ? 'selected' : void 0 %>>Cheque Printed (Mailed)</option>
+								<option value="4" <%= invoice.avc === "4" ? 'selected' : void 0 %>>Paid, NOT cleared bank</option>
+								<option value="5" <%= invoice.avc === "5" ? 'selected' : void 0 %>>Paid, cleared bank</option>
+							</select>
+						</td>
+					</tr>
+					
+					<% }); %>
+					
+				</table>
