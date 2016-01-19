@@ -60,7 +60,6 @@ window.VehicleListView = Backbone.View.extend({
             
           });
         });
-        
       });
      
      
