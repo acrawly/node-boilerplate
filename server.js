@@ -7,15 +7,6 @@ var bodyParser = require('body-parser');
 var vehicleBroker = require("./vehicleBroker.js");
 var _ = require('underscore');
 
-//var multer = require('multer'); 
-var Harvest = require("harvest");
-
-var harvest = new Harvest({
-        subdomain: "crawfordworks",
-        email: "andrew@crawford.works",
-        password: "@ndr3W12"
-    });
-   
 
 
 //helper functions
@@ -38,24 +29,12 @@ var app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-//app.use(multer()); // for parsing multipart/form-data
 
 
-//setup harvest connection for all requests
 app.use(function(req,res,next){
   
     console.log("Time: " + Date() + ". Request Type: " + req.method + ". Request URL: " + req.originalUrl);
     
-    req.vehicleBroker = new vehicleBroker(
-      {
-        host: "localhost",
-        user: "root",
-        password: "password",
-        database: "tbtrak",
-        baseURI: "/vehicles"
-      }
-    );
-    req.projects = harvest.Projects;
     
     res.setHeader("Access-Control-Allow-Origin", "http://localhost");
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,DELETE,OPTIONS');
@@ -75,6 +54,11 @@ app.use(function(req,res,next){
 
 //routes
 
+app.get('*', function(req, res) {
+   res.send("Hello World"); 
+});
+
+//everything below here needs to be reworked -Andrew
 app.get('/projects', function(req, res) {
 	//lists all projects
 	
