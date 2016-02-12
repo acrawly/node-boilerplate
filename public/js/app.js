@@ -1,3 +1,5 @@
+
+
 //event management
 Backbone.pubSub = _.extend({}, Backbone.Events);
 
@@ -5,17 +7,10 @@ Backbone.pubSub = _.extend({}, Backbone.Events);
 window.Router = Backbone.Router.extend({
 
     routes: {
-        "": "home",
-        "vehicles": "vehicles",
-        "vehicles/:id": "vehicleDetails",
-        "exhibits": "exhibits",
-        "exhibits/:id": "exhibitDetails",
-        "settings" : "settings"
+        "": "home"
     },
 
     initialize: function () {
-        this.searchView = new SearchView();
-        $('.search').html(this.searchView.render().el);
 
         // Close the search dropdown on click anywhere in the UI
         /*$('body').click(function () {
@@ -37,89 +32,11 @@ window.Router = Backbone.Router.extend({
             //http://stackoverflow.com/questions/11073877/delegateevents-in-backbone-js
         }
         $("#content").html(this.homeView.el);
-        //this.headerView.select('home-menu');
-    },
-
-    vehicles: function () {
-        if (!this.vehicleListView) {
-            
-            this.vehicleCollection = new VehicleCollection();
-            var self = this;
-            
-            this.vehicleCollection.fetch(
-            {
-              success: function() {
-                var vehicleListView = new VehicleListView({collection: self.vehicleCollection});
-                
-                vehicleListView.render();
-                
-                $('#content').html(vehicleListView.el);
-              },
-              error: function() {
-                alert("There was an issue loading data from the server. Please contact IT.");
-              }
-            });
-        }
-        
-       
-    },
-
-    vehicleDetails: function (id) {
-        
-        var vehicle = new Vehicle({id: id});
-        
-        vehicle.fetch({
-            success: function (data) {
-              // Note that we could also 'recycle' the same instance of EmployeeFullView
-              // instead of creating new instances
-              
-              //$('#modal').html(); new VehicleView({model: data}).render.el;
-              //console.log(new VehicleView({model: data}).render().el);
-              
-              var vehicleView = new VehicleView({model: data});
-              vehicleView.render();
-              
-              $("#content").html(vehicleView.el);
-              
-            },
-            error: function() {
-              alert("There was an issue loading data from the server. Please contact IT.");
-            }
-        });
-    },
-    exhibits: function() {
-      if (!this.exhibitsListView) {
-            var self = this; //fix scope issues
-            this.exhibitsListView = new ExhibitsListView();
-            
-            //this.vehicleCollection = new VehicleCollection();
-            this.exhibitsListView.render();
-            /*this.vehicleCollection.fetch({success: function() {
-              self.vehicleListView.render(self.vehicleCollection);
-              //console.log(self.vehicleCollection);
-            }});*/
-        }
-        
-        $('#content').html(this.exhibitsListView.el);
-    },
-    settings: function() {
-      if(!this.settingsView) {
-            this.settingsView = new SettingsView();
-            
-            //this.vehicleCollection = new VehicleCollection();
-            this.settingsView.render();
-            /*this.vehicleCollection.fetch({success: function() {
-              self.vehicleListView.render(self.vehicleCollection);
-              //console.log(self.vehicleCollection);
-            }});*/
-        }
-        
-        $('#content').html(this.settingsView.el);
     }
 
 });
 
-templateLoader.load(["HomeView", "VehicleView", "VehicleListView", "SearchView", "ExhibitsListView", "SettingsView"],
+templateLoader.load(["HomeView"],
     function () {
         app = new Router();
         Backbone.history.start();

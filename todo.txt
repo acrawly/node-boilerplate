@@ -1,5 +1,3 @@
 Andrew:
 -Complete setting up project shell
--Do CRUD for vehicles
--Implement users and authentication
 
