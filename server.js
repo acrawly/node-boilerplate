@@ -2,10 +2,15 @@
 /* globals require: true */
 
 
-var express = require("express");
-var bodyParser = require('body-parser');
-var vehicleBroker = require("./vehicleBroker.js");
-var _ = require('underscore');
+var express = require('express'); //call express
+var app = express(); //define our app using express
+var bodyParser = require('body-parser'); //get body-parser
+var morgan = require('morgan'); //used to see requests
+var path = require('path');
+var config = require('./app/config/config.js');
+var bookshelf = require('./app/config/bookshelf')(config);
+
+
 
 
 
@@ -23,22 +28,16 @@ function isJSON(str) {
 //end of helper functions
 
 
-var app = express();
-
-
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
-app.use(function(req,res,next){
-  
-    console.log("Time: " + Date() + ". Request Type: " + req.method + ". Request URL: " + req.originalUrl);
+app.use(function(req,res,next) {
     
-    
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost");
-    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,DELETE,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, \Authorization');
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
@@ -49,15 +48,36 @@ app.use(function(req,res,next){
     }
 });
 
+//log all requests to the console
+app.use(morgan(config.env));
+
+//expose public directory
+app.use(express.static(__dirname + '/public'));
 
 
 
-//routes
+//ROUTES for API
+//============================================
 
-app.get('*', function(req, res) {
-   res.send("Hello World"); 
+//API ROUTES ---------------------------------
+var apiRoutes = require('./app/routes/api.js')(app, express);
+app.use('/api', apiRoutes);
+
+
+//MAIN CATCHALL ROUTE -----------------
+//SEND USERS TO FRONTEND --------------
+//has to be registered after API ROUTES
+app.get('*', function(req, res){
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
+//START THE SERVER
+//=================================
+app.listen(config.port);
+console.log('Magic happens on port ' + config.port);
+
+
+//***** EVERYTHING FROM HERE DOWN IS OLD AND MUST GO, PLEASE ONLY USE FOR REFERENCE
 //everything below here needs to be reworked -Andrew
 app.get('/projects', function(req, res) {
 	//lists all projects
@@ -201,10 +221,4 @@ app.use(function(req, res){
 
 	
 //end of routes
-	
-	
-	
-app.listen(3000);
-
-console.log("Server running on port 3000");
 

@@ -1,5 +1,5 @@
--Implement MySQL connection pooling. See https://github.com/felixge/node-mysql/issues/889
--Setup settings area to update harvest credentials for API connection
--Implement search term for GET /projects
--Implement Edmunds API for easier vehicle naming (also with backfall if the API is unavailable)
--
+Andrew:
+-Complete setting up project shell
+-Do CRUD for vehicles
+-Implement users and authentication
+
